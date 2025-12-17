@@ -1,11 +1,9 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
 
 export default function LoginPage() {
-  const router = useRouter();
   const supabase = createClient();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -245,7 +243,7 @@ export default function LoginPage() {
           {/* Enlace de registro */}
           <div className="mt-6 text-center">
             <p className="text-white text-sm">
-              Don't have a account{' '}
+              Don&apos;t have an account{' '}
               <a
                 href="/signup"
                 className="text-white font-semibold hover:underline"

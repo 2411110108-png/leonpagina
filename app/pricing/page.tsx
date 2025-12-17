@@ -8,6 +8,7 @@ import PricingCard from '@/components/PricingCard';
 export default function PricingPage() {
   const router = useRouter();
   const supabase = createClient();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [user, setUser] = useState<any | null>(null);
   const [loading, setLoading] = useState(true);
 

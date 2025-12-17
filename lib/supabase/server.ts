@@ -23,9 +23,11 @@ export async function createClient() {
           console.log('ServerClient: Cookies present:', allCookies.map(c => c.name));
           return allCookies;
         },
-        setAll(cookiesToSet) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        setAll(cookiesToSet: any) {
           try {
-            cookiesToSet.forEach(({ name, value, options }) =>
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            cookiesToSet.forEach(({ name, value, options }: any) =>
               cookieStore.set(name, value, options)
             );
           } catch {

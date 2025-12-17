@@ -94,24 +94,24 @@ export default function DashboardPage() {
               </span>
               Panel de control
             </a>
-            <a href="/dashboard/citas" className="flex items-center gap-2 rounded-md px-3 py-2 text-slate-300 hover:bg-slate-900/60 cursor-pointer">
+            <Link href="/dashboard/citas" className="flex items-center gap-2 rounded-md px-3 py-2 text-slate-300 hover:bg-slate-900/60 cursor-pointer">
               <span className="inline-flex h-5 w-5 items-center justify-center rounded-sm bg-slate-800 text-slate-400">
                 👨‍⚕️
               </span>
               Agenda de citas
-            </a>
-            <a href="/dashboard/pacientes" className="flex items-center gap-2 rounded-md px-3 py-2 text-slate-300 hover:bg-slate-900/60 cursor-pointer">
+            </Link>
+            <Link href="/dashboard/pacientes" className="flex items-center gap-2 rounded-md px-3 py-2 text-slate-300 hover:bg-slate-900/60 cursor-pointer">
               <span className="inline-flex h-5 w-5 items-center justify-center rounded-sm bg-slate-800 text-slate-400">
                 👥
               </span>
               Pacientes
-            </a>
-            <a href="/dashboard/doctores" className="flex items-center gap-2 rounded-md px-3 py-2 text-slate-300 hover:bg-slate-900/60 cursor-pointer">
+            </Link>
+            <Link href="/dashboard/doctores" className="flex items-center gap-2 rounded-md px-3 py-2 text-slate-300 hover:bg-slate-900/60 cursor-pointer">
               <span className="inline-flex h-5 w-5 items-center justify-center rounded-sm bg-slate-800 text-slate-400">
                 🩺
               </span>
               Doctores
-            </a>
+            </Link>
             <a className="flex items-center gap-2 rounded-md px-3 py-2 text-slate-300 hover:bg-slate-900/60 cursor-pointer">
               <span className="inline-flex h-5 w-5 items-center justify-center rounded-sm bg-slate-800 text-slate-400">
                 📄
@@ -358,12 +358,12 @@ export default function DashboardPage() {
                   <h2 className="text-sm font-semibold text-slate-50">
                     Próximas citas
                   </h2>
-                  <a
-                    href="/dashboard/appointments"
+                  <Link
+                    href="/dashboard/citas"
                     className="text-[11px] text-cyan-400 hover:text-cyan-300"
                   >
                     Ver agenda
-                  </a>
+                  </Link>
                 </div>
                 <div className="space-y-2 text-xs">
                   {proxCitas?.map((cita) => (

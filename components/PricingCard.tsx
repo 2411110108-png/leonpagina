@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { subscribeToPlanAction } from '@/app/pricing/actions';
 
 interface Plan {
@@ -18,12 +17,11 @@ interface PricingCardProps {
   userId: string;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export default function PricingCard({ plan, userId }: PricingCardProps) {
   const [loading, setLoading] = useState(false);
   const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [operationCode, setOperationCode] = useState('');
-
-  const router = useRouter();
 
   const handleSubscribeClick = () => {
     setShowPaymentModal(true);
@@ -52,8 +50,8 @@ export default function PricingCard({ plan, userId }: PricingCardProps) {
     <>
       <div
         className={`relative rounded-lg border p-8 shadow-lg ${plan.popular
-            ? 'border-green-500 bg-white dark:bg-zinc-800 scale-105'
-            : 'border-zinc-200 bg-white dark:border-zinc-700 dark:bg-zinc-800'
+          ? 'border-green-500 bg-white dark:bg-zinc-800 scale-105'
+          : 'border-zinc-200 bg-white dark:border-zinc-700 dark:bg-zinc-800'
           }`}
       >
         {plan.popular && (
@@ -99,8 +97,8 @@ export default function PricingCard({ plan, userId }: PricingCardProps) {
           onClick={handleSubscribeClick}
           disabled={loading}
           className={`w-full rounded-lg px-6 py-3 font-semibold text-white transition-colors disabled:opacity-50 ${plan.popular
-              ? 'bg-green-600 hover:bg-green-700'
-              : 'bg-zinc-900 hover:bg-zinc-800 dark:bg-zinc-50 dark:text-zinc-900 dark:hover:bg-zinc-200'
+            ? 'bg-green-600 hover:bg-green-700'
+            : 'bg-zinc-900 hover:bg-zinc-800 dark:bg-zinc-50 dark:text-zinc-900 dark:hover:bg-zinc-200'
             }`}
         >
           Suscribirse
