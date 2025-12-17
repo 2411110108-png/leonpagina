@@ -29,21 +29,18 @@ export default function LoginPage() {
       }
 
       if (data.user) {
-        // Redirigir después del login exitoso
-        router.push('/dashboard');
-        router.refresh();
+        // Esperar a que la sesión se sincronice
+        await supabase.auth.getSession();
+        // Redirigir después del login exitoso usando window.location para forzar recarga
+        window.location.href = '/dashboard';
       }
     } catch (err) {
-      setError(
-        err instanceof Error
-          ? err.message
-          : 'Error al iniciar sesión. Verifica tus credenciales.'
-      );
+      console.error('Error al iniciar sesión:', err);
+      setError('Error al iniciar sesión. Verifica tus credenciales.');
     } finally {
       setLoading(false);
     }
   };
-
   // Generar estrellas aleatorias
   const stars = Array.from({ length: 50 }, (_, i) => ({
     id: i,

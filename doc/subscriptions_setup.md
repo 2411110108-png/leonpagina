@@ -146,3 +146,4 @@ create policy "Users can view their own subscriptions"
 - Asegúrate de que el webhook secret coincida
 - Revisa los logs en Stripe Dashboard > Webhooks para ver errores
 
+

@@ -126,3 +126,4 @@ El middleware protege automáticamente todas las rutas excepto:
 
 Los usuarios no autenticados serán redirigidos a `/login`.
 
+

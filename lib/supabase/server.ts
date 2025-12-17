@@ -19,7 +19,9 @@ export async function createClient() {
     {
       cookies: {
         getAll() {
-          return cookieStore.getAll();
+          const allCookies = cookieStore.getAll();
+          console.log('ServerClient: Cookies present:', allCookies.map(c => c.name));
+          return allCookies;
         },
         setAll(cookiesToSet) {
           try {

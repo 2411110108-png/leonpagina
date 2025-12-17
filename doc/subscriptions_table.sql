@@ -41,3 +41,4 @@ create policy "Users can view their own subscriptions"
   for select
   using (auth.uid() = user_id);
 
+
