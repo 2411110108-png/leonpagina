@@ -18,12 +18,11 @@ export default async function EditarCitaPage({ params }: { params: Promise<{ id:
     const updateAction = updateCitaAction.bind(null, id);
 
     return (
-        <div className="p-6">
-            <h1 className="text-2xl font-bold text-slate-100 mb-6">Editar Cita</h1>
+        <div className="max-w-2xl mx-auto">
             <CitaForm
                 action={updateAction}
                 initialData={cita}
-                buttonText="Guardar Cambios"
+                buttonText="Save Changes"
                 doctores={doctores || []}
                 pacientes={pacientes || []}
             />

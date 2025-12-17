@@ -19,25 +19,21 @@ export async function createClient() {
     {
       cookies: {
         getAll() {
-          const allCookies = cookieStore.getAll();
-          console.log('ServerClient: Cookies present:', allCookies.map(c => c.name));
-          return allCookies;
+          return cookieStore.getAll();
         },
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        setAll(cookiesToSet: any) {
+        setAll(cookiesToSet) {
           try {
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            cookiesToSet.forEach(({ name, value, options }: any) =>
+            cookiesToSet.forEach(({ name, value, options }) =>
               cookieStore.set(name, value, options)
             );
-          } catch {
+          } catch (error) {
             // The `setAll` method was called from a Server Component.
             // This can be ignored if you have middleware refreshing
             // user sessions.
+            console.log('Cookie set error (can be ignored):', error);
           }
         },
       },
     }
   );
 }
-

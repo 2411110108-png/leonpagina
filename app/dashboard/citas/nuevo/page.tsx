@@ -9,11 +9,10 @@ export default async function NuevaCitaPage() {
     ]);
 
     return (
-        <div className="p-6">
-            <h1 className="text-2xl font-bold text-slate-100 mb-6">Nueva Cita</h1>
+        <div className="max-w-2xl mx-auto">
             <CitaForm
                 action={createCitaAction}
-                buttonText="Crear Cita"
+                buttonText="Create Appointment"
                 doctores={doctores || []}
                 pacientes={pacientes || []}
             />

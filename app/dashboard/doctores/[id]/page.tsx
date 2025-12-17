@@ -14,12 +14,11 @@ export default async function EditarDoctorPage({ params }: { params: Promise<{ i
     const updateAction = updateDoctorAction.bind(null, id);
 
     return (
-        <div className="p-6">
-            <h1 className="text-2xl font-bold text-slate-100 mb-6">Editar Doctor</h1>
+        <div className="max-w-2xl mx-auto">
             <DoctorForm
                 action={updateAction}
                 initialData={doctor}
-                buttonText="Guardar Cambios"
+                buttonText="Save Changes"
             />
         </div>
     );

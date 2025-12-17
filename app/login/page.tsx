@@ -7,7 +7,6 @@ export default function LoginPage() {
   const supabase = createClient();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [rememberMe, setRememberMe] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -29,7 +28,7 @@ export default function LoginPage() {
       if (data.user) {
         // Esperar a que la sesión se sincronice
         await supabase.auth.getSession();
-        // Redirigir después del login exitoso usando window.location para forzar recarga
+        // Redirigir después del login exitoso
         window.location.href = '/dashboard';
       }
     } catch (err) {
@@ -39,221 +38,131 @@ export default function LoginPage() {
       setLoading(false);
     }
   };
-  // Generar estrellas aleatorias
-  const stars = Array.from({ length: 50 }, (_, i) => ({
-    id: i,
-    x: Math.random() * 100,
-    y: Math.random() * 60,
-    size: Math.random() * 2 + 1,
-  }));
 
   return (
-    <div className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Fondo con paisaje nocturno */}
-      <div className="absolute inset-0 bg-gradient-to-b from-purple-900 via-purple-800 to-pink-600">
-        {/* Estrellas */}
-        <div className="absolute inset-0">
-          {stars.map((star) => (
-            <div
-              key={star.id}
-              className="absolute rounded-full bg-white"
-              style={{
-                left: `${star.x}%`,
-                top: `${star.y}%`,
-                width: `${star.size}px`,
-                height: `${star.size}px`,
-                opacity: Math.random() * 0.8 + 0.2,
-              }}
-            />
-          ))}
-        </div>
-
-        {/* Montañas y paisaje */}
-        <div className="absolute bottom-0 w-full">
-          {/* Montañas lejanas */}
-          <svg
-            className="absolute bottom-0 w-full"
-            viewBox="0 0 1200 300"
-            preserveAspectRatio="none"
-          >
-            <path
-              d="M0,300 L200,200 L400,250 L600,180 L800,220 L1000,190 L1200,240 L1200,300 Z"
-              fill="#1a1a2e"
-              opacity="0.8"
-            />
-            <path
-              d="M0,300 L300,150 L500,200 L700,120 L900,180 L1200,140 L1200,300 Z"
-              fill="#16213e"
-              opacity="0.9"
-            />
-          </svg>
-
-          {/* Árboles/pinos */}
-          <svg
-            className="absolute bottom-0 w-full"
-            viewBox="0 0 1200 200"
-            preserveAspectRatio="none"
-          >
-            {Array.from({ length: 20 }, (_, i) => (
-              <g key={i}>
-                <path
-                  d={`M${i * 60},200 L${i * 60 + 10},150 L${i * 60 + 20},200 Z`}
-                  fill="#0f1419"
-                />
-                <path
-                  d={`M${i * 60 + 5},200 L${i * 60 + 15},140 L${i * 60 + 25},200 Z`}
-                  fill="#0a0e13"
-                />
-              </g>
-            ))}
-          </svg>
-
-          {/* Castillo/edificios en la distancia */}
-          <div className="absolute bottom-32 right-20">
-            <svg width="80" height="60" viewBox="0 0 80 60">
-              <rect x="10" y="30" width="15" height="30" fill="#0a0e13" />
-              <rect x="30" y="20" width="15" height="40" fill="#0a0e13" />
-              <rect x="50" y="25" width="15" height="35" fill="#0a0e13" />
-              <polygon points="10,30 17.5,20 25,30" fill="#0a0e13" />
-              <polygon points="30,20 37.5,10 45,20" fill="#0a0e13" />
-              <polygon points="50,25 57.5,15 65,25" fill="#0a0e13" />
-            </svg>
-          </div>
-        </div>
+    <div className="min-h-screen bg-white flex flex-col items-center justify-between relative overflow-hidden font-sans">
+      {/* Wave Header Background */}
+      <div className="absolute top-0 left-0 w-full h-[300px] z-0 pointer-events-none">
+        <svg
+          viewBox="0 0 1440 320"
+          className="w-full h-full object-cover"
+          preserveAspectRatio="none"
+        >
+          <defs>
+            <linearGradient id="waveGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" style={{ stopColor: '#4ADE80', stopOpacity: 1 }} /> {/* Light Green/Teal */}
+              <stop offset="100%" style={{ stopColor: '#3B82F6', stopOpacity: 1 }} /> {/* Blue */}
+            </linearGradient>
+          </defs>
+          <path
+            fill="url(#waveGradient)"
+            fillOpacity="1"
+            d="M0,192L48,197.3C96,203,192,213,288,229.3C384,245,480,267,576,250.7C672,235,768,181,864,181.3C960,181,1056,235,1152,234.7C1248,235,1344,181,1392,154.7L1440,128L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"
+          ></path>
+          <path
+            fill="#FFFF"
+            fillOpacity="0.2"
+            d="M0,160L48,176C96,192,192,224,288,213.3C384,203,480,149,576,133.3C672,117,768,139,864,160C960,181,1056,203,1152,202.7C1248,203,1344,181,1392,170.7L1440,160L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"
+          ></path>
+        </svg>
       </div>
 
-      {/* Tarjeta de login con efecto glassmorphism */}
-      <div className="relative z-10 w-full max-w-md px-4">
-        <div
-          className="backdrop-blur-md bg-white/10 rounded-2xl border border-white/20 p-8 shadow-2xl"
-          style={{
-            background: 'rgba(255, 255, 255, 0.1)',
-            backdropFilter: 'blur(10px)',
-          }}
-        >
-          {/* Título */}
-          <h1 className="text-4xl font-bold text-white text-center mb-8">
-            Login
-          </h1>
+      {/* Header Content */}
+      <div className="w-full max-w-7xl mx-auto px-6 py-6 flex justify-between items-start z-10 text-white">
+        <div className="flex items-center gap-2">
+          {/* Logo Placeholder */}
+          <div className="w-12 h-12 bg-gray-600 rounded-full flex items-center justify-center text-xs text-center border-2 border-white/30">
+            Gemgloo
+          </div>
+        </div>
+        <h2 className="text-xl font-medium tracking-wide">Sistema para Clinica</h2>
+      </div>
 
-          <form onSubmit={handleSubmit} className="space-y-6">
-            {error && (
-              <div className="bg-red-500/20 border border-red-400/50 text-red-200 px-4 py-3 rounded-lg text-sm">
-                {error}
-              </div>
-            )}
+      {/* Main Content Area */}
+      <main className="flex-1 w-full flex items-center justify-center z-10 px-4">
+        <div className="flex w-full max-w-5xl items-center justify-center gap-10">
 
-            {/* Campo Email */}
-            <div className="relative">
-              <label
-                htmlFor="email"
-                className="block text-white text-sm mb-2 font-medium"
-              >
-                Email
-              </label>
-              <div className="relative">
+          {/* Illustration would go here - Ignored as requested */}
+          {/* <div className="hidden lg:block w-1/2"> ... </div> */}
+
+          {/* Login Card */}
+          <div className="bg-white rounded-lg p-10 w-full max-w-[450px] shadow-[0_0_20px_rgba(0,0,0,0.05)] border border-gray-100">
+            <h1 className="text-3xl font-bold text-center text-[#14B8A6] mb-12" style={{ fontFamily: 'var(--font-geist-sans), sans-serif' }}>
+              Inicio de Sesión
+            </h1>
+
+            <form onSubmit={handleSubmit} className="space-y-8">
+              {error && (
+                <div className="bg-red-50 text-red-600 px-4 py-2 rounded-md text-sm text-center">
+                  {error}
+                </div>
+              )}
+
+              {/* Email Input */}
+              <div className="group">
+                <label className="block text-[#14B8A6] text-sm font-medium mb-1">
+                  Correo Electronico
+                </label>
                 <input
-                  id="email"
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
+                  className="w-full border-b-2 border-gray-300 focus:border-[#2DD4BF] outline-none py-2 text-gray-600 transition-colors bg-white font-medium"
                   required
-                  className="w-full bg-transparent border-0 border-b-2 border-white/50 text-white placeholder-white/50 focus:outline-none focus:border-white pb-2 pr-8 transition-colors"
-                  placeholder="Email"
                 />
-                <svg
-                  className="absolute right-0 top-1/2 -translate-y-1/2 w-5 h-5 text-white/70"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                  />
-                </svg>
               </div>
-            </div>
 
-            {/* Campo Password */}
-            <div className="relative">
-              <label
-                htmlFor="password"
-                className="block text-white text-sm mb-2 font-medium"
-              >
-                Password
-              </label>
-              <div className="relative">
+              {/* Password Input */}
+              <div className="group">
+                <label className="block text-[#14B8A6] text-sm font-medium mb-1">
+                  Contraseña
+                </label>
                 <input
-                  id="password"
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
+                  className="w-full border-b-2 border-gray-300 focus:border-[#2DD4BF] outline-none py-2 text-gray-600 transition-colors bg-white font-medium"
                   required
-                  className="w-full bg-transparent border-0 border-b-2 border-white/50 text-white placeholder-white/50 focus:outline-none focus:border-white pb-2 pr-8 transition-colors"
-                  placeholder="Password"
                 />
-                <svg
-                  className="absolute right-0 top-1/2 -translate-y-1/2 w-5 h-5 text-white/70"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
-                  />
-                </svg>
               </div>
-            </div>
 
-            {/* Remember Me y Forgot Password */}
-            <div className="flex items-center justify-between text-sm">
-              <label className="flex items-center text-white cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={rememberMe}
-                  onChange={(e) => setRememberMe(e.target.checked)}
-                  className="mr-2 w-4 h-4 accent-white"
-                />
-                <span>Remember Me</span>
-              </label>
-              <a
-                href="/forgot-password"
-                className="text-white hover:underline"
-              >
-                Forgot Password
-              </a>
-            </div>
+              {/* Submit Button */}
+              <div className="pt-4 flex justify-center">
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="px-12 py-3 rounded-full text-white font-medium transition-transform active:scale-95 disabled:opacity-70 disabled:cursor-not-allowed shadow-md bg-gradient-to-r from-[#34D399] to-[#2DD4BF] hover:shadow-lg"
+                >
+                  {loading ? 'Entrando...' : 'Entrar'}
+                </button>
+              </div>
 
-            {/* Botón Login */}
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full py-3 px-4 bg-white text-gray-800 rounded-lg font-semibold hover:bg-gray-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {loading ? 'Logging in...' : 'Log In'}
-            </button>
-          </form>
-
-          {/* Enlace de registro */}
-          <div className="mt-6 text-center">
-            <p className="text-white text-sm">
-              Don&apos;t have an account{' '}
-              <a
-                href="/signup"
-                className="text-white font-semibold hover:underline"
-              >
-                Sign Up
-              </a>
-            </p>
+              {/* Sign Up Link */}
+              <div className="text-center pt-6 border-t border-gray-100 mt-6">
+                <p className="text-gray-600 text-sm">
+                  ¿No tienes una cuenta?{' '}
+                  <a
+                    href="/signup"
+                    className="text-teal-600 font-semibold hover:text-teal-700 hover:underline transition-colors"
+                  >
+                    Regístrate aquí
+                  </a>
+                </p>
+              </div>
+            </form>
           </div>
         </div>
-      </div>
+      </main>
+
+      {/* Footer */}
+      <footer className="w-full py-6 text-center z-10">
+        <p className="text-[#2DD4BF] text-sm font-medium">
+          2024 © Developed by Gemgloo
+        </p>
+      </footer>
+
+      {/* Bottom Green Bubble/Wave decoration (simulated) */}
+      <div className="absolute -bottom-20 -right-20 w-64 h-64 bg-teal-50 rounded-full blur-3xl -z-10"></div>
     </div>
   );
 }

@@ -51,7 +51,6 @@ export default function SignUpPage() {
 
       if (data.user) {
         setSuccess(true);
-        // Opcional: redirigir después de un tiempo
         setTimeout(() => {
           router.push('/login');
         }, 2000);
@@ -67,197 +66,107 @@ export default function SignUpPage() {
     }
   };
 
-  // Generar estrellas aleatorias
-  const stars = Array.from({ length: 50 }, (_, i) => ({
-    id: i,
-    x: Math.random() * 100,
-    y: Math.random() * 60,
-    size: Math.random() * 2 + 1,
-  }));
-
   return (
-    <div className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Fondo con paisaje nocturno */}
-      <div className="absolute inset-0 bg-gradient-to-b from-purple-900 via-purple-800 to-pink-600">
-        {/* Estrellas */}
-        <div className="absolute inset-0">
-          {stars.map((star) => (
-            <div
-              key={star.id}
-              className="absolute rounded-full bg-white"
-              style={{
-                left: `${star.x}%`,
-                top: `${star.y}%`,
-                width: `${star.size}px`,
-                height: `${star.size}px`,
-                opacity: Math.random() * 0.8 + 0.2,
-              }}
-            />
-          ))}
-        </div>
-
-        {/* Montañas y paisaje */}
-        <div className="absolute bottom-0 w-full">
-          {/* Montañas lejanas */}
-          <svg
-            className="absolute bottom-0 w-full"
-            viewBox="0 0 1200 300"
-            preserveAspectRatio="none"
-          >
-            <path
-              d="M0,300 L200,200 L400,250 L600,180 L800,220 L1000,190 L1200,240 L1200,300 Z"
-              fill="#1a1a2e"
-              opacity="0.8"
-            />
-            <path
-              d="M0,300 L300,150 L500,200 L700,120 L900,180 L1200,140 L1200,300 Z"
-              fill="#16213e"
-              opacity="0.9"
-            />
-          </svg>
-
-          {/* Árboles/pinos */}
-          <svg
-            className="absolute bottom-0 w-full"
-            viewBox="0 0 1200 200"
-            preserveAspectRatio="none"
-          >
-            {Array.from({ length: 20 }, (_, i) => (
-              <g key={i}>
-                <path
-                  d={`M${i * 60},200 L${i * 60 + 10},150 L${i * 60 + 20},200 Z`}
-                  fill="#0f1419"
-                />
-                <path
-                  d={`M${i * 60 + 5},200 L${i * 60 + 15},140 L${i * 60 + 25},200 Z`}
-                  fill="#0a0e13"
-                />
-              </g>
-            ))}
-          </svg>
-
-          {/* Castillo/edificios en la distancia */}
-          <div className="absolute bottom-32 right-20">
-            <svg width="80" height="60" viewBox="0 0 80 60">
-              <rect x="10" y="30" width="15" height="30" fill="#0a0e13" />
-              <rect x="30" y="20" width="15" height="40" fill="#0a0e13" />
-              <rect x="50" y="25" width="15" height="35" fill="#0a0e13" />
-              <polygon points="10,30 17.5,20 25,30" fill="#0a0e13" />
-              <polygon points="30,20 37.5,10 45,20" fill="#0a0e13" />
-              <polygon points="50,25 57.5,15 65,25" fill="#0a0e13" />
-            </svg>
-          </div>
-        </div>
+    <div className="min-h-screen bg-white flex flex-col items-center justify-between relative overflow-hidden font-sans">
+      {/* Wave Header Background */}
+      <div className="absolute top-0 left-0 w-full h-[300px] z-0 pointer-events-none">
+        <svg
+          viewBox="0 0 1440 320"
+          className="w-full h-full object-cover"
+          preserveAspectRatio="none"
+        >
+          <defs>
+            <linearGradient id="waveGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" style={{ stopColor: '#4ADE80', stopOpacity: 1 }} />
+              <stop offset="100%" style={{ stopColor: '#3B82F6', stopOpacity: 1 }} />
+            </linearGradient>
+          </defs>
+          <path
+            fill="url(#waveGradient)"
+            fillOpacity="1"
+            d="M0,192L48,197.3C96,203,192,213,288,229.3C384,245,480,267,576,250.7C672,235,768,181,864,181.3C960,181,1056,235,1152,234.7C1248,235,1344,181,1392,154.7L1440,128L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"
+          ></path>
+          <path
+            fill="#FFFF"
+            fillOpacity="0.2"
+            d="M0,160L48,176C96,192,192,224,288,213.3C384,203,480,149,576,133.3C672,117,768,139,864,160C960,181,1056,203,1152,202.7C1248,203,1344,181,1392,170.7L1440,160L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"
+          ></path>
+        </svg>
       </div>
 
-      {/* Tarjeta de registro con efecto glassmorphism */}
-      <div className="relative z-10 w-full max-w-md px-4">
-        <div
-          className="backdrop-blur-md bg-white/10 rounded-2xl border border-white/20 p-8 shadow-2xl"
-          style={{
-            background: 'rgba(255, 255, 255, 0.1)',
-            backdropFilter: 'blur(10px)',
-          }}
-        >
-          {/* Título */}
-          <h1 className="text-4xl font-bold text-white text-center mb-8">
-            Sign Up
-          </h1>
+      {/* Header Content */}
+      <div className="w-full max-w-7xl mx-auto px-6 py-6 flex justify-between items-start z-10 text-white">
+        <div className="flex items-center gap-2">
+          <div className="w-12 h-12 bg-gray-600 rounded-full flex items-center justify-center text-xs text-center border-2 border-white/30">
+            Gemgloo
+          </div>
+        </div>
+        <h2 className="text-xl font-medium tracking-wide">Sistema para Clinica</h2>
+      </div>
 
-          {success ? (
-            <div className="space-y-4">
-              <div className="bg-green-500/20 border border-green-400/50 text-green-200 px-4 py-3 rounded-lg text-sm text-center">
-                ¡Cuenta creada exitosamente! Revisa tu correo para confirmar tu cuenta.
-              </div>
-              <p className="text-white text-sm text-center">
-                Redirigiendo al login...
-              </p>
-            </div>
-          ) : (
-            <form onSubmit={handleSubmit} className="space-y-6">
-              {error && (
-                <div className="bg-red-500/20 border border-red-400/50 text-red-200 px-4 py-3 rounded-lg text-sm">
-                  {error}
+      {/* Main Content Area */}
+      <main className="flex-1 w-full flex items-center justify-center z-10 px-4">
+        <div className="flex w-full max-w-5xl items-center justify-center gap-10">
+          {/* Sign Up Card */}
+          <div className="bg-white rounded-lg p-10 w-full max-w-[500px] shadow-[0_0_20px_rgba(0,0,0,0.05)] border border-gray-100">
+            <h1 className="text-3xl font-bold text-center text-[#14B8A6] mb-8" style={{ fontFamily: 'var(--font-geist-sans), sans-serif' }}>
+              Crear Cuenta
+            </h1>
+
+            {success ? (
+              <div className="space-y-4">
+                <div className="bg-teal-50 border border-teal-200 text-teal-700 px-4 py-3 rounded-lg text-sm text-center">
+                  ¡Cuenta creada exitosamente! Revisa tu correo para confirmar tu cuenta.
                 </div>
-              )}
+                <p className="text-gray-600 text-sm text-center">
+                  Redirigiendo al login...
+                </p>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmit} className="space-y-6">
+                {error && (
+                  <div className="bg-red-50 text-red-600 px-4 py-2 rounded-md text-sm text-center">
+                    {error}
+                  </div>
+                )}
 
-              {/* Campo Nombre */}
-              <div className="relative">
-                <label
-                  htmlFor="name"
-                  className="block text-white text-sm mb-2 font-medium"
-                >
-                  Nombre
-                </label>
+                {/* Campo Nombre */}
                 <div className="relative">
+                  <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
+                    Nombre Completo
+                  </label>
                   <input
                     id="name"
                     type="text"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     required
-                    className="w-full bg-transparent border-0 border-b-2 border-white/50 text-white placeholder-white/50 focus:outline-none focus:border-white pb-2 pr-8 transition-colors"
+                    className="w-full bg-transparent border-0 border-b-2 border-gray-300 text-gray-800 placeholder-gray-400 focus:outline-none focus:border-teal-500 pb-2 transition-colors"
                     placeholder="Tu nombre"
                   />
-                  <svg
-                    className="absolute right-0 top-1/2 -translate-y-1/2 w-5 h-5 text-white/70"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                    />
-                  </svg>
                 </div>
-              </div>
 
-              {/* Campo Email */}
-              <div className="relative">
-                <label
-                  htmlFor="email"
-                  className="block text-white text-sm mb-2 font-medium"
-                >
-                  Email
-                </label>
+                {/* Campo Email */}
                 <div className="relative">
+                  <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+                    Email
+                  </label>
                   <input
                     id="email"
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
-                    className="w-full bg-transparent border-0 border-b-2 border-white/50 text-white placeholder-white/50 focus:outline-none focus:border-white pb-2 pr-8 transition-colors"
-                    placeholder="Email"
+                    className="w-full bg-transparent border-0 border-b-2 border-gray-300 text-gray-800 placeholder-gray-400 focus:outline-none focus:border-teal-500 pb-2 transition-colors"
+                    placeholder="tu@email.com"
                   />
-                  <svg
-                    className="absolute right-0 top-1/2 -translate-y-1/2 w-5 h-5 text-white/70"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                    />
-                  </svg>
                 </div>
-              </div>
 
-              {/* Campo Password */}
-              <div className="relative">
-                <label
-                  htmlFor="password"
-                  className="block text-white text-sm mb-2 font-medium"
-                >
-                  Password
-                </label>
+                {/* Campo Password */}
                 <div className="relative">
+                  <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
+                    Contraseña
+                  </label>
                   <input
                     id="password"
                     type="password"
@@ -265,34 +174,16 @@ export default function SignUpPage() {
                     onChange={(e) => setPassword(e.target.value)}
                     required
                     minLength={6}
-                    className="w-full bg-transparent border-0 border-b-2 border-white/50 text-white placeholder-white/50 focus:outline-none focus:border-white pb-2 pr-8 transition-colors"
-                    placeholder="Password (mín. 6 caracteres)"
+                    className="w-full bg-transparent border-0 border-b-2 border-gray-300 text-gray-800 placeholder-gray-400 focus:outline-none focus:border-teal-500 pb-2 transition-colors"
+                    placeholder="Mínimo 6 caracteres"
                   />
-                  <svg
-                    className="absolute right-0 top-1/2 -translate-y-1/2 w-5 h-5 text-white/70"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
-                    />
-                  </svg>
                 </div>
-              </div>
 
-              {/* Campo Confirm Password */}
-              <div className="relative">
-                <label
-                  htmlFor="confirmPassword"
-                  className="block text-white text-sm mb-2 font-medium"
-                >
-                  Confirm Password
-                </label>
+                {/* Campo Confirm Password */}
                 <div className="relative">
+                  <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-2">
+                    Confirmar Contraseña
+                  </label>
                   <input
                     id="confirmPassword"
                     type="password"
@@ -300,52 +191,49 @@ export default function SignUpPage() {
                     onChange={(e) => setConfirmPassword(e.target.value)}
                     required
                     minLength={6}
-                    className="w-full bg-transparent border-0 border-b-2 border-white/50 text-white placeholder-white/50 focus:outline-none focus:border-white pb-2 pr-8 transition-colors"
-                    placeholder="Confirma tu password"
+                    className="w-full bg-transparent border-0 border-b-2 border-gray-300 text-gray-800 placeholder-gray-400 focus:outline-none focus:border-teal-500 pb-2 transition-colors"
+                    placeholder="Confirma tu contraseña"
                   />
-                  <svg
-                    className="absolute right-0 top-1/2 -translate-y-1/2 w-5 h-5 text-white/70"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
-                    />
-                  </svg>
                 </div>
-              </div>
 
-              {/* Botón Sign Up */}
-              <button
-                type="submit"
-                disabled={loading}
-                className="w-full py-3 px-4 bg-white text-gray-800 rounded-lg font-semibold hover:bg-gray-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {loading ? 'Creating account...' : 'Sign Up'}
-              </button>
-            </form>
-          )}
+                {/* Botón Sign Up */}
+                <div className="pt-4 flex justify-center">
+                  <button
+                    type="submit"
+                    disabled={loading}
+                    className="px-12 py-3 rounded-full text-white font-medium transition-transform active:scale-95 disabled:opacity-70 disabled:cursor-not-allowed shadow-md bg-gradient-to-r from-[#34D399] to-[#2DD4BF] hover:shadow-lg"
+                  >
+                    {loading ? 'Creando cuenta...' : 'Crear Cuenta'}
+                  </button>
+                </div>
 
-          {/* Enlace de login */}
-          <div className="mt-6 text-center">
-            <p className="text-white text-sm">
-              Already have an account?{' '}
-              <a
-                href="/login"
-                className="text-white font-semibold hover:underline"
-              >
-                Log In
-              </a>
-            </p>
+                {/* Login Link */}
+                <div className="text-center pt-6 border-t border-gray-100 mt-6">
+                  <p className="text-gray-600 text-sm">
+                    ¿Ya tienes una cuenta?{' '}
+                    <a
+                      href="/login"
+                      className="text-teal-600 font-semibold hover:text-teal-700 hover:underline transition-colors"
+                    >
+                      Inicia sesión aquí
+                    </a>
+                  </p>
+                </div>
+              </form>
+            )}
           </div>
         </div>
-      </div>
+      </main>
+
+      {/* Footer */}
+      <footer className="w-full py-6 text-center z-10">
+        <p className="text-[#2DD4BF] text-sm font-medium">
+          2024 © Developed by Gemgloo
+        </p>
+      </footer>
+
+      {/* Bottom decoration */}
+      <div className="absolute -bottom-20 -right-20 w-64 h-64 bg-teal-50 rounded-full blur-3xl -z-10"></div>
     </div>
   );
 }
-
-
