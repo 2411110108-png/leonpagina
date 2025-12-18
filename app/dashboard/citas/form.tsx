@@ -1,14 +1,14 @@
 'use client';
 
-import { useActionState } from 'react';
 import { useFormStatus } from 'react-dom';
 import { Cita, Doctor, Paciente } from '@/lib/supabase/queries';
 import Link from 'next/link';
-import { useEffect } from 'react';
+import { useState } from 'react';
 import { toast } from 'sonner';
+import { createClient } from '@/lib/supabase/client';
+import { useRouter } from 'next/navigation';
 
 interface CitaFormProps {
-    action: (prevState: any, formData: FormData) => Promise<{ error?: string }>;
     initialData?: Cita;
     doctores: Doctor[];
     pacientes: Paciente[];
@@ -32,17 +32,71 @@ function SubmitButton({ buttonText }: { buttonText: string }) {
     );
 }
 
-export default function CitaForm({ action, initialData, doctores, pacientes, buttonText }: CitaFormProps) {
-    const [state, formAction] = useActionState(action, { error: undefined });
+export default function CitaForm({ initialData, doctores, pacientes, buttonText }: CitaFormProps) {
+    const router = useRouter();
+    const [loading, setLoading] = useState(false);
+    const supabase = createClient();
 
-    useEffect(() => {
-        if (state?.error) {
-            toast.error(state.error);
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        setLoading(true);
+
+        try {
+            const formData = new FormData(e.currentTarget);
+            const doctor_id = formData.get('doctor_id') as string;
+            const paciente_id = formData.get('paciente_id') as string;
+            const fecha = formData.get('fecha') as string;
+            const hora = formData.get('hora') as string;
+            const estado = formData.get('estado') as 'pendiente' | 'confirmada' | 'cancelada' | 'atendida' || 'pendiente';
+
+            if (!doctor_id || !paciente_id || !fecha || !hora) {
+                toast.error('Todos los campos son requeridos');
+                return;
+            }
+
+            if (initialData) {
+                // Update
+                const { error } = await supabase
+                    .from('citas')
+                    .update({
+                        doctor_id,
+                        paciente_id,
+                        fecha,
+                        hora,
+                        estado
+                    })
+                    .eq('id', initialData.id);
+
+                if (error) throw error;
+                toast.success('Cita actualizada correctamente');
+            } else {
+                // Create
+                const { error } = await supabase
+                    .from('citas')
+                    .insert({
+                        doctor_id,
+                        paciente_id,
+                        fecha,
+                        hora,
+                        estado: 'pendiente'
+                    });
+
+                if (error) throw error;
+                toast.success('Cita creada correctamente');
+            }
+
+            router.push('/dashboard/citas');
+            router.refresh();
+        } catch (error) {
+            console.error('Error:', error);
+            toast.error(error instanceof Error ? error.message : 'Error al guardar cita');
+        } finally {
+            setLoading(false);
         }
-    }, [state]);
+    };
 
     return (
-        <form action={formAction} className="space-y-6 max-w-2xl bg-white p-8 rounded-2xl border border-gray-100 shadow-sm">
+        <form onSubmit={handleSubmit} className="space-y-6 max-w-2xl bg-white p-8 rounded-2xl border border-gray-100 shadow-sm">
             <h2 className="text-xl font-bold text-gray-800 mb-6">{initialData ? 'Edit Appointment' : 'New Appointment Information'}</h2>
 
             <div className="grid gap-6 md:grid-cols-2">
@@ -143,7 +197,16 @@ export default function CitaForm({ action, initialData, doctores, pacientes, but
                 >
                     Cancel
                 </Link>
-                <SubmitButton buttonText={buttonText} />
+                <button
+                    type="submit"
+                    disabled={loading}
+                    className="bg-teal-600 hover:bg-teal-700 text-white font-bold px-8 py-2.5 rounded-lg text-sm transition-all shadow-md shadow-teal-500/20 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                >
+                    {loading && (
+                        <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                    )}
+                    {loading ? 'Guardando...' : buttonText}
+                </button>
             </div>
         </form>
     );

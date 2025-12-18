@@ -1,14 +1,14 @@
 'use client';
 
-import { useActionState } from 'react';
 import { useFormStatus } from 'react-dom';
 import { Doctor } from '@/lib/supabase/queries';
 import Link from 'next/link';
-import { useEffect } from 'react';
+import { useState } from 'react';
 import { toast } from 'sonner';
+import { createClient } from '@/lib/supabase/client';
+import { useRouter } from 'next/navigation';
 
 interface DoctorFormProps {
-    action: (prevState: any, formData: FormData) => Promise<{ error?: string }>;
     initialData?: Doctor;
     buttonText: string;
 }
@@ -30,17 +30,65 @@ function SubmitButton({ buttonText }: { buttonText: string }) {
     );
 }
 
-export default function DoctorForm({ action, initialData, buttonText }: DoctorFormProps) {
-    const [state, formAction] = useActionState(action, { error: undefined });
+export default function DoctorForm({ initialData, buttonText }: DoctorFormProps) {
+    const router = useRouter();
+    const [loading, setLoading] = useState(false);
+    const supabase = createClient();
 
-    useEffect(() => {
-        if (state?.error) {
-            toast.error(state.error);
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        setLoading(true);
+
+        try {
+            const formData = new FormData(e.currentTarget);
+            const nombre = formData.get('nombre') as string;
+            const especialidad = formData.get('especialidad') as string;
+            const telefono = formData.get('telefono') as string | null;
+
+            if (!nombre || !especialidad) {
+                toast.error('Nombre y especialidad son requeridos');
+                return;
+            }
+
+            if (initialData) {
+                // Update
+                const { error } = await supabase
+                    .from('doctor')
+                    .update({
+                        nombre,
+                        especialidad,
+                        telefono: telefono || null
+                    })
+                    .eq('id', initialData.id);
+
+                if (error) throw error;
+                toast.success('Doctor actualizado correctamente');
+            } else {
+                // Create
+                const { error } = await supabase
+                    .from('doctor')
+                    .insert({
+                        nombre,
+                        especialidad,
+                        telefono: telefono || null
+                    });
+
+                if (error) throw error;
+                toast.success('Doctor creado correctamente');
+            }
+
+            router.push('/dashboard/doctores');
+            router.refresh();
+        } catch (error) {
+            console.error('Error:', error);
+            toast.error(error instanceof Error ? error.message : 'Error al guardar doctor');
+        } finally {
+            setLoading(false);
         }
-    }, [state]);
+    };
 
     return (
-        <form action={formAction} className="space-y-6 max-w-2xl bg-white p-8 rounded-2xl border border-gray-100 shadow-sm">
+        <form onSubmit={handleSubmit} className="space-y-6 max-w-2xl bg-white p-8 rounded-2xl border border-gray-100 shadow-sm">
             <h2 className="text-xl font-bold text-gray-800 mb-6">{initialData ? 'Edit Doctor' : 'New Doctor Information'}</h2>
 
             <div className="grid gap-6">
@@ -96,7 +144,16 @@ export default function DoctorForm({ action, initialData, buttonText }: DoctorFo
                 >
                     Cancel
                 </Link>
-                <SubmitButton buttonText={buttonText} />
+                <button
+                    type="submit"
+                    disabled={loading}
+                    className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-8 py-2.5 rounded-lg text-sm transition-all shadow-md shadow-indigo-500/20 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                >
+                    {loading && (
+                        <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                    )}
+                    {loading ? 'Guardando...' : buttonText}
+                </button>
             </div>
         </form>
     );
