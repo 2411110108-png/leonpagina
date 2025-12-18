@@ -1,9 +1,9 @@
 'use client';
 
-import { useActionState, useFormStatus } from 'react';
+import { useFormStatus } from 'react-dom';
 import { Paciente } from '@/lib/supabase/queries';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { toast } from 'sonner';
 import { createClient } from '@/lib/supabase/client';
 import { useRouter } from 'next/navigation';
